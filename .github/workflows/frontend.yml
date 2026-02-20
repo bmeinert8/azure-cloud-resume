@@ -2,7 +2,7 @@ name: Deploy Frontend to Azure
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
     paths:
       - 'frontend/**'
 
@@ -10,12 +10,10 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-    # 1. Grab your latest code from the repository
-    - uses: actions/checkout@v3
+      # 1. Grab your latest code from the repository
+      - uses: actions/checkout@v3
 
-    # 2. Run the Azure CLI upload command using the secret password
-    - name: Upload to Azure Storage
-      uses: azure/CLI@v1
-      with:
-        inlineScript: |
-          az storage blob upload-batch --account-name briansresume440395 --source frontend --destination '$web' --overwrite --connection-string ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
+      # 2. Run the built-in Azure CLI directly
+      - name: Upload to Azure Storage
+        run: |
+          az storage blob upload-batch --account-name briansresume440395 --source frontend --destination '$web' --overwrite --connection-string "${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}"
