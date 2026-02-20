@@ -279,7 +279,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
 });
 
 // pointing this at LOCAL Python server for now
-const localFunctionApi = 'http://localhost:7071/api/GetResumeCounter';
+const localFunctionApi =
+  'https://brian-resume-api-440395.azurewebsites.net/api/getresumecounter';
 
 const getVisitCount = () => {
   // 1. Fetch the data from the API
