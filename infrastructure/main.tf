@@ -46,7 +46,7 @@ resource "azurerm_cosmosdb_account" "db" {
   offer_type          = "Standard"
   kind                = "GlobalDocumentDB"
 
-  enable_free_tier    = true 
+  free_tier_enabled    = true 
   # Note: Free tier might not apply to Serverless mode specifically, 
   # but Serverless is cheap anyway. 
   
@@ -79,7 +79,7 @@ resource "azurerm_cosmosdb_sql_container" "container" {
   resource_group_name   = azurerm_resource_group.rg.name
   account_name          = azurerm_cosmosdb_account.db.name
   database_name         = azurerm_cosmosdb_sql_database.sql_db.name
-  partition_key_path    = "/id"
+  partition_key_paths    = ["/id"]
 }
 
 #8. Storage Account for the Function App
@@ -131,4 +131,17 @@ resource "azurerm_linux_function_app" "func_app" {
 # 11. Output the Live API URL
 output "api_url" {
   value = "https://${azurerm_linux_function_app.func_app.default_hostname}/api/GetResumeCounter"
+}
+
+# 12. Storage Queue for Contact Messages
+resource "azurerm_storage_queue" "contact_queue" {
+  name                 = "contactmessages"
+  storage_account_name = azurerm_storage_account.func_sa.name
+}
+
+#13. Logic App Serverless Consumption Plan for Notifications
+resource "azurerm_logic_app_workflow" "email_notifier" {
+  name                = "brian-contact-notifier-440395"
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
 }
