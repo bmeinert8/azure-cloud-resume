@@ -114,7 +114,10 @@ resource "azurerm_linux_function_app" "func_app" {
       python_version = "3.12" # Update this to local Python version if needed
     }
     cors {
-      allowed_origins = ["*"] # will lock this down to just website URL later
+      allowed_origins = [
+        "https://bmeinert.com",
+        "https://www.bmeinert.com"
+      ] 
     }
   }
 
