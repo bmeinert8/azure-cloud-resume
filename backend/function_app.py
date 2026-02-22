@@ -47,3 +47,23 @@ def GetResumeCounter(req: func.HttpRequest, indoc: func.DocumentList, outdoc: fu
         json.dumps({"count": new_count}),
         mimetype="application/json"
     )
+
+@app.route(route="contact", methods=["POST"], auth_level=func.AuthLevel.ANONYMOUS)
+@app.queue_output(arg_name="msg", queue_name="contact-messages", connection="AzureWebJobsStorage")
+def contact_form(req: func.HttpRequest, msg: func.Out[str]) -> func.HttpResponse:
+    logging.info('Processing new contact form submission.')
+
+    try:
+        # Grab the data sent from your website's frontend form
+        req_body = req.get_json()
+        
+        # Format the data into a clean JSON string
+        payload = json.dumps(req_body)
+        
+        # The magic step: This drops the payload into the Azure Storage Queue
+        msg.set(payload)
+        
+        return func.HttpResponse("Message queued successfully!", status_code=200)
+
+    except ValueError:
+        return func.HttpResponse("Invalid data received.", status_code=400)
