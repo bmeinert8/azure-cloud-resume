@@ -278,7 +278,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
   getVisitCount();
 });
 
-// pointing this at LOCAL Python server for now
 const localFunctionApi =
   'https://brian-resume-api-440395.azurewebsites.net/api/getresumecounter';
 
@@ -299,3 +298,66 @@ const getVisitCount = () => {
       console.log('Error fetching data:', error);
     });
 };
+
+/* Contact Form Logic */
+const contactForm = document.getElementById('contactForm');
+const submitBtn = document.getElementById('submitBtn');
+const formSuccess = document.getElementById('form-message-success');
+const formWarning = document.getElementById('form-message-warning');
+
+// Note: This points to the new /contact route we built in your Python backend
+const contactApiUrl =
+  'https://brian-resume-api-440395.azurewebsites.net/api/contact';
+
+if (contactForm) {
+  contactForm.addEventListener('submit', function (e) {
+    e.preventDefault(); // Stop the form from refreshing the page
+
+    // 1. Grab the data from the form fields
+    const name = document.getElementById('contactName').value;
+    const email = document.getElementById('contactEmail').value;
+    const message = document.getElementById('contactMessage').value;
+
+    // 2. Change the button to show it is processing
+    submitBtn.innerText = 'Sending...';
+    submitBtn.disabled = true;
+
+    // 3. Package the data into a clean JSON object
+    const payload = {
+      name: name,
+      email: email,
+      message: message,
+    };
+
+    // 4. Send the payload to the Azure Function
+    fetch(contactApiUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    })
+      .then((response) => {
+        if (response.ok) {
+          // Success! Reset the form and show the green success message
+          contactForm.reset();
+          formSuccess.style.display = 'block';
+          formWarning.style.display = 'none';
+          submitBtn.innerText = 'Submit Message';
+          submitBtn.disabled = false;
+        } else {
+          throw new Error('Network response was not ok.');
+        }
+      })
+      .catch((error) => {
+        // Something went wrong. Show the red error message
+        console.error('Error:', error);
+        formWarning.innerText =
+          'There was an error sending your message. Please try again later.';
+        formWarning.style.display = 'block';
+        formSuccess.style.display = 'none';
+        submitBtn.innerText = 'Submit Message';
+        submitBtn.disabled = false;
+      });
+  });
+}

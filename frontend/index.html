@@ -806,33 +806,28 @@
 
         <div class="column large-4 medium-12">
           <div class="row contact-infos">
-            <div class="column large-12 medium-6 tab-12">
-              <div class="contact-block">
-                <h5 class="contact-block__header">Email</h5>
-                <p class="contact-block__content">
-                  <a class="mailtoui" href="mailto:sayhello@ceevee.com"
-                    >sayhello@ceevee.com</a
-                  >
-                </p>
-              </div>
-              <!-- end contact-block -->
-            </div>
-            <div class="column large-12 medium-6 tab-12">
-              <div class="contact-block">
-                <h5 class="contact-block__header">Phone</h5>
-                <p class="contact-block__content">
-                  <a href="tel:+1975432345">+197 543 2345</a>
-                </p>
-              </div>
-              <!-- end contact-block -->
-            </div>
-
             <div class="column large-12">
-              <a
-                href="mailto:sayhello@ceevee.com"
-                class="mailtoui btn btn--primary h-full-width"
-                >Let's Talk</a
-              >
+              <form id="contactForm" name="contactForm" class="contact-form">
+                <fieldset>
+                  <div class="form-field" style="margin-bottom: 2rem;">
+                    <input name="contactName" type="text" id="contactName" placeholder="Your Name" required class="h-full-width">
+                  </div>
+                  <div class="form-field" style="margin-bottom: 2rem;">
+                    <input name="contactEmail" type="email" id="contactEmail" placeholder="Your Email" required class="h-full-width">
+                  </div>
+                  <div class="form-field" style="margin-bottom: 2rem;">
+                    <textarea name="contactMessage" id="contactMessage" placeholder="Your Message" rows="5" required class="h-full-width"></textarea>
+                  </div>
+                  <div class="form-field">
+                    <button type="submit" class="btn btn--primary h-full-width" id="submitBtn">Submit Message</button>
+                  </div>
+                </fieldset>
+              </form>
+              
+              <div id="form-message-warning" style="display:none; color: red; margin-top: 15px;"></div>
+              <div id="form-message-success" style="display:none; color: #00cc00; margin-top: 15px; font-weight: bold;">
+                Your message was sent successfully! I will be in touch soon.
+              </div>
             </div>
           </div>
           <!-- end contact-infos -->
