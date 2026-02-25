@@ -1,0 +1,40 @@
+name: Deploy Python Backend to Azure Function App
+
+on:
+  push:
+    branches: ['main']
+    paths:
+      - 'api/**' # Only run this pipeline if files in the api folder change
+      - '.github/workflows/backend.yml'
+
+env:
+  AZURE_FUNCTIONAPP_NAME: 'brian-resume-api-440395'
+  PYTHON_VERSION: '3.11' # Standard for v2 functions
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout GitHub Action'
+        uses: actions/checkout@v4
+
+      - name: Setup Python ${{ env.PYTHON_VERSION }} Environment
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: 'Resolve Project Dependencies Using Pip'
+        shell: bash
+        run: |
+          pushd './api'
+          python -m venv worker_venv
+          source worker_venv/bin/activate
+          pip install -r requirements.txt
+          popd
+
+      - name: 'Run Azure Functions Action'
+        uses: Azure/functions-action@v1
+        with:
+          app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
+          package: './api'
+          publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }}
