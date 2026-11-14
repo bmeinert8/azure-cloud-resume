@@ -189,9 +189,9 @@
               The Azure Cloud Resume is a production-grade, event-driven web
               application designed to demonstrate end-to-end cloud engineering
               capabilities. Hosted on Azure Static Web Apps with custom DNS
-              routing via Cloudflare, the frontend communicates with a
-              serverless Python backend (Azure Functions) and a NoSQL Cosmos DB
-              database to power a live visitor counter. To showcase event-driven
+              routing via GoDaddy, the frontend communicates with a serverless
+              Python backend (Azure Functions) and a NoSQL Cosmos DB database to
+              power a live visitor counter. To showcase event-driven
               architecture, the site features a decoupled contact form that
               drops payloads into an Azure Storage Queue, which instantly
               triggers an Azure Logic App workflow to process and dispatch
@@ -200,14 +200,13 @@
 
             <p>
               Beyond the application code, the entire environment was built with
-              a strict DevSecOps and automation mindset. The underlying
-              infrastructure is fully codified and managed using
-              Terraform—implementing advanced lifecycle rules to prevent state
-              drift—ensuring the architecture is reproducible and immutable. All
-              updates are routed through an automated GitHub Actions CI/CD
-              pipeline, guaranteeing that every commit is automatically analyzed
-              for security vulnerabilities via CodeQL before being seamlessly
-              deployed to the live production environment.
+              a DevSecOps and automation mindset. The underlying infrastructure
+              is fully coded and managed using Terraform, implementing lifecycle
+              rules to prevent state drift, ensuring the architecture is
+              reproducible and immutable. All updates are routed through an
+              automated GitHub Actions CI/CD pipeline, guaranteeing that every
+              commit is automatically analyzed for security vulnerabilities via
+              CodeQL before being deployed to the live production environment.
             </p>
           </div>
           <!-- end resume-block -->
@@ -216,7 +215,14 @@
             <div class="resume-block__header">
               <h4 class="h3">Serverless Secret Management Platform</h4>
             </div>
-
+            <div class="project-gallery">
+              <img src="./images/lockscreen.png" alt="app lock screen" />
+              <img
+                src="./images/generator.png"
+                alt="password generator home screen"
+              />
+              <img src="./images/saved.png" alt="saved passwords screen" />
+            </div>
             <p>
               The Serverless Secret Management Platform is a "Zero-Trust"
               credential vault engineered to securely generate, store, and

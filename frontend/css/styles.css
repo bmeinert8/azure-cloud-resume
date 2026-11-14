@@ -4089,6 +4089,27 @@ button.btn--pill {
 }
 
 /* ------------------------------------------------------------------- 
+ * ## project gallery
+ * ------------------------------------------------------------------- */
+
+.project-gallery {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem; /* Adjust this to change the space between images */
+  margin-bottom: var(--vspace-1_5);
+  margin-top: var(--vspace-1_5);
+}
+
+.project-gallery img {
+  flex: 1 1 0; /* Forces all three images to take up exactly equal width */
+  width: 30%;
+  max-width: 250px;
+  height: 400px;
+  object-fit: contain; /* Prevents the images from stretching weirdly */
+  margin-bottom: 0; /* Overrides the default image margin */
+}
+
+/* ------------------------------------------------------------------- 
  * ## credentials
  * ------------------------------------------------------------------- */
 
@@ -4347,6 +4368,18 @@ button.btn--pill {
   }
   .cta-content {
     max-width: 600px;
+  }
+
+  .project-gallery {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .project-gallery img {
+    width: 100%; /* Allows the image to expand on smaller screens */
+    max-width: 350px; /* Prevents them from becoming massively tall on tablets */
+    height: auto; /* Lets the height scale naturally when stacked */
   }
 }
 
