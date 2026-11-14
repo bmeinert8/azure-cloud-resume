@@ -990,7 +990,7 @@ textarea {
 }
 
 .large-12 {
-  -ms-flex: 0 0 100%;
+  margin-bottom: 10rem;
   -webkit-box-flex: 0;
   flex: 0 0 100%;
   max-width: 100%;
@@ -3998,7 +3998,7 @@ button.btn--pill {
  *
  * ------------------------------------------------------------------- */
 .s-resume {
-  background-color: white;
+  background-color: var(--color-gray-1);
   padding-top: calc(6 * var(--space));
   padding-bottom: var(--vspace-4);
 }
@@ -4075,7 +4075,7 @@ button.btn--pill {
  *
  * ------------------------------------------------------------------- */
 .s-portfolio {
-  background-color: var(--color-gray-1);
+  background-color: var(--color-white);
   padding-top: calc(6 * var(--space));
   padding-bottom: var(--vspace-5);
 }
@@ -4086,6 +4086,36 @@ button.btn--pill {
 
 .s-portfolio__header {
   text-align: center;
+}
+
+/* ------------------------------------------------------------------- 
+ * ## credentials
+ * ------------------------------------------------------------------- */
+
+.credential__list {
+  display: flex;
+  align-items: center;
+  align-content: center;
+  justify-content: space-around;
+  flex-wrap: wrap; /* Allows the items to stack into a new row */
+}
+
+.credential__image {
+  height: 225px;
+  width: auto;
+}
+.credential__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
+}
+
+.credential__title {
+  font-weight: 800;
+  font-size: calc(var(--text-size) * 0.8889);
+  margin-top: 0;
+  margin-bottom: var(--vspace-0_25);
 }
 
 /* ------------------------------------------------------------------- 
@@ -4302,6 +4332,14 @@ button.btn--pill {
  * responsive:
  * cta
  * ------------------------------------------------------------------- */
+
+@media screen and (max-width: 1050px) {
+  .credential__item {
+    width: 50%;
+    margin-bottom: var(--vspace-2); /* Adds vertical spacing between rows */
+  }
+}
+
 @media screen and (max-width: 800px) {
   .s-cta {
     font-size: var(--text-md);
@@ -4316,6 +4354,10 @@ button.btn--pill {
   .s-cta .section-desc {
     font-size: var(--text-xl);
     line-height: var(--vspace-1_25);
+  }
+
+  .credential__item {
+    width: 100%;
   }
 }
 
@@ -4769,6 +4811,12 @@ button.btn--pill {
 .counter__text {
   color: var(--color-2);
   margin-top: var(--vspace-0_5);
+}
+
+.contact-form input,
+.contact-form textarea,
+.contact-form button {
+  color: #ffffff !important;
 }
 
 /* ------------------------------------------------------------------- 

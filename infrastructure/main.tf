@@ -12,33 +12,14 @@ provider "azurerm" {
   features {}
 }
 
-# 2. Create the Resource Group
+# Create the Resource Group
 resource "azurerm_resource_group" "rg" {
   name     = "azure-resume-rg"
   location = "centralus"
 }
 
-# 3. Create the Storage Account
-resource "azurerm_storage_account" "sa" {
-  name                     = "briansresume440395"
-  resource_group_name      = azurerm_resource_group.rg.name
-  location                 = azurerm_resource_group.rg.location
-  account_tier             = "Standard"
-  account_replication_type = "LRS"
 
-  # Enable Static Website Hosting
-  static_website {
-    index_document     = "index.html"
-    error_404_document = "404.html"
-  }
-}
-
-# 4. Output the Website URL
-output "website_url" {
-  value = azurerm_storage_account.sa.primary_web_endpoint
-}
-
-# 5. Create Cosmos DB Account (Serverless Mode)
+# Create Cosmos DB Account (Serverless Mode)
 resource "azurerm_cosmosdb_account" "db" {
   name                = "brians-resume-db-440395"
   location            = azurerm_resource_group.rg.location
@@ -66,14 +47,14 @@ resource "azurerm_cosmosdb_account" "db" {
   }
 }
 
-# 6. Create the SQL Database inside the Account
+# Create the SQL Database inside the Account
 resource "azurerm_cosmosdb_sql_database" "sql_db" {
   name                = "AzureResume"
   resource_group_name = azurerm_resource_group.rg.name
   account_name        = azurerm_cosmosdb_account.db.name
 }
 
-# 7. Create the Container (Table)
+# Create the Container (Table)
 resource "azurerm_cosmosdb_sql_container" "container" {
   name                  = "Counter"
   resource_group_name   = azurerm_resource_group.rg.name
@@ -82,7 +63,7 @@ resource "azurerm_cosmosdb_sql_container" "container" {
   partition_key_paths    = ["/id"]
 }
 
-#8. Storage Account for the Function App
+# Storage Account for the Function App
 resource "azurerm_storage_account" "func_sa" {
   name                     = "brianfuncsa440395"
   resource_group_name      = azurerm_resource_group.rg.name
@@ -91,7 +72,7 @@ resource "azurerm_storage_account" "func_sa" {
   account_replication_type = "LRS"
 }
 
-#9. App Service Plan (Serverless Consumption Plan)
+# App Service Plan (Serverless Consumption Plan)
 resource "azurerm_service_plan" "app_plan" {
   name                = "brian-resume-app-plan"
   resource_group_name = azurerm_resource_group.rg.name
@@ -100,7 +81,7 @@ resource "azurerm_service_plan" "app_plan" {
   sku_name            = "Y1" # Y1 is the dynamic/serverless tier
 }
 
-# 10. The Python Function App
+# The Python Function App
 resource "azurerm_linux_function_app" "func_app" {
   name                       = "brian-resume-api-440395"
   resource_group_name        = azurerm_resource_group.rg.name
@@ -116,7 +97,8 @@ resource "azurerm_linux_function_app" "func_app" {
     cors {
       allowed_origins = [
         "https://bmeinert.com",
-        "https://www.bmeinert.com"
+        "https://www.bmeinert.com",
+        "https://black-coast-0335f4310.2.azurestaticapps.net"
       ] 
     }
   }
@@ -126,22 +108,47 @@ resource "azurerm_linux_function_app" "func_app" {
     "CosmosDbConnectionString" = azurerm_cosmosdb_account.db.primary_sql_connection_string
     "AzureWebJobsFeatureFlags" = "EnableWorkerIndexing" # Required for the Python V2 model
   }
+
+  lifecycle {
+    ignore_changes = [
+      site_config[0].application_insights_connection_string,
+      site_config[0].application_insights_key,
+      tags["hidden-link: /app-insights-resource-id"],
+      sticky_settings
+    ]
+  }
 }
 
-# 11. Output the Live API URL
+# Output the Live API URL
 output "api_url" {
   value = "https://${azurerm_linux_function_app.func_app.default_hostname}/api/GetResumeCounter"
 }
 
-# 12. Storage Queue for Contact Messages
+# Storage Queue for Contact Messages
 resource "azurerm_storage_queue" "contact_queue" {
   name                 = "contactmessages"
   storage_account_name = azurerm_storage_account.func_sa.name
 }
 
-#13. Logic App Serverless Consumption Plan for Notifications
+# Logic App Serverless Consumption Plan for Notifications
 resource "azurerm_logic_app_workflow" "email_notifier" {
   name                = "brian-contact-notifier-440395"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
+  lifecycle {
+    ignore_changes = [
+      parameters,
+      workflow_parameters,
+      identity,
+      tags
+    ]
+  }
+}
+# Static Web App for the Frontend
+resource "azurerm_static_web_app" "resume_frontend" {
+  name                = "bmeinert-portfolio-app"
+  resource_group_name = azurerm_resource_group.rg.name
+  location            = "centralus" # Match the region you deployed it to
+  sku_tier            = "Free"
+  sku_size            = "Free"
 }
