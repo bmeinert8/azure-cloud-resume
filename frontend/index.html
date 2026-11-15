@@ -184,6 +184,12 @@
             <div class="resume-block__header">
               <h4 class="h3">Azure Cloud Resume & Serverless Architecture</h4>
             </div>
+            <div class="project-image-single">
+              <img
+                src="./images/cloud-resume-diagram.png"
+                alt="Azure Cloud Resume architecture"
+              />
+            </div>
 
             <p>
               The Azure Cloud Resume is a production-grade, event-driven web
@@ -208,6 +214,12 @@
               commit is automatically analyzed for security vulnerabilities via
               CodeQL before being deployed to the live production environment.
             </p>
+
+            <a href="#">Project Blog</a>
+            <span>|</span>
+            <a href="https://github.com/bmeinert8/azure-cloud-resume"
+              >GitHub Repository</a
+            >
           </div>
           <!-- end resume-block -->
 
@@ -253,6 +265,58 @@
             <a
               href="https://dev.to/bmeinert8/from-localstorage-to-zero-trust-architecting-a-serverless-secret-management-platform-2am4"
               >Project Blog</a
+            >
+            <span>|</span>
+            <a href="https://github.com/bmeinert8/serverless-password-app"
+              >GitHub Repository</a
+            >
+          </div>
+          <!-- end resume-block -->
+
+          <div class="resume-block">
+            <div class="resume-block__header">
+              <h4 class="h3">Enterprise Hub-and-Spoke Network Architecture</h4>
+            </div>
+            <div class="project-image-single">
+              <img
+                src="./images/enterprise-network-diagram.png"
+                alt="enterprise hub-and-spoke network architecture"
+              />
+            </div>
+            <p>
+              The Enterprise Hub-and-Spoke Network Architecture is a highly
+              secure, enterprise-grade cloud topology deployed in Microsoft
+              Azure. Engineered with a strict Zero-Trust approach, the
+              environment features a central Hub Virtual Network peered to
+              completely isolated Production and Development spoke networks to
+              prevent unauthorized lateral movement. At the core of the
+              architecture is a central Azure Firewall, which acts as the single
+              point of entry and exit for the entire cloud footprint. By
+              implementing custom User-Defined Routes (UDRs), all East-West and
+              North-South traffic is hijacked and forced into the firewall's
+              private IP (10.0.1.4) for deep inspection and filtering.
+            </p>
+
+            <p>
+              To ensure a reproducible and immutable environment, the entire
+              infrastructure was codified using Terraform. This declarative
+              Infrastructure as Code (IaC) approach automated the provisioning
+              of Virtual Networks, non-transitive VNet peerings, Route Tables,
+              and Linux test virtual machines. The Zero-Trust routing was
+              rigorously validated by executing ping tests between the isolated
+              spoke VMs; because the custom routes successfully forced traffic
+              into the firewall's default "Deny All" stance, the tests resulted
+              in 100% packet loss, proving that lateral communication is
+              completely blocked unless explicitly permitted by firewall rules.
+            </p>
+
+            <a
+              href="https://dev.to/bmeinert8/from-localstorage-to-zero-trust-architecting-a-serverless-secret-management-platform-2am4"
+              >Project Blog</a
+            >
+            <span>|</span>
+            <a href="https://github.com/bmeinert8/azure-enterprise-network"
+              >GitHub Repository</a
             >
           </div>
           <!-- end resume-block -->

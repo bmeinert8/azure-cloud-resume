@@ -4110,6 +4110,27 @@ button.btn--pill {
 }
 
 /* ------------------------------------------------------------------- 
+ * ## single project image
+ * ------------------------------------------------------------------- */
+
+.project-image-single {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--vspace-1_5);
+  margin-bottom: var(--vspace-1_5);
+}
+
+.project-image-single img {
+  width: 100%;
+  max-width: 800px; /* Allows the diagram to stretch up to 800px wide for readability */
+  height: auto; /* Lets the height scale naturally without distortion */
+  border-radius: var(
+    --border-radius
+  ); /* Optional: adds a slight rounding to the corners */
+  margin-bottom: 0;
+}
+
+/* ------------------------------------------------------------------- 
  * ## credentials
  * ------------------------------------------------------------------- */
 
